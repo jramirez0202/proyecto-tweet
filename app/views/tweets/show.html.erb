@@ -1,0 +1,25 @@
+<div class= "container">
+  <p id="notice"><%= notice %></p>
+      <div class="row">
+          <div class="col-md-8">
+            <strong>Content:</strong>
+            <%= @tweet.content %>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-md-8">
+            <strong>Photo</strong>
+            <%=  %>
+          </div>
+      </div>
+
+
+
+
+  <%= link_to 'Edit', edit_tweet_path(@tweet) %> |
+  <%= link_to 'Back', tweets_path %>
+
+
+
+</div>

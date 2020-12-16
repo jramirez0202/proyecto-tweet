@@ -89,6 +89,35 @@ devise_for :users, controllers: {
 
   procedemos a crear un usuario en el formulario modificado.
 
+
+  HISTORIA 2
+
+*Una visita debe poder entrar a la página de inicio y ver los últimos 50 tweets.
+
+Creamos una modelo Tweets con content:text con referencia a User para crear una relacion (foreign key) entre tablas tweets.
+
+rails g model tweet user:references content:text
+
+revisamos que todo este correcto y procedemos hacer la migración
+
+rails db:migrate
+
+Agregamos has_many :tweets en el modelo User.rb
+
+*Cada tweet debe mostrar el contenido, la foto del autor (url a la foto), la cantidad de likes y la cantidad de retweets.
+
+Creamos 2 modelos (like y retweet) y hacemos referencias a user y tweet
+
+rails g model like bottom:boolean user:references tweet:references
+rails g model retweet user:references tweet:references
+
+agregamos las referencias en el los modelos like y retweet que solo pueden pertenecer a un usuario y a un tweet
+
+
+
+
+
+
 * Configuration
 
 * Database creation

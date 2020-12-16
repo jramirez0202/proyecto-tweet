@@ -1,6 +1,5 @@
-class PostsController < ApplicationController
-  before_action :authenticate_user!
+# class PostsController < ApplicationController
 
-  def index
-  end
-end
+#   def index
+#   end
+# end
