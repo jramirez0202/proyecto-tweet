@@ -113,8 +113,23 @@ rails g model retweet user:references tweet:references
 
 agregamos las referencias en el los modelos like y retweet que solo pueden pertenecer a un usuario y a un tweet
 
+creando el boton like
 
+Configuramos una ruta personalizada
 
+put '/tweet/:id/like', to: 'tweets#like', as: 'like'
+
+Creamos un metodo like en nuestro controlador en el creamos el like con user_id y tweet_id luego en nuestro modelo Tweet creamos un metodo liked?(user) para una validacion rápida y luego en el modelo Like una segunda validacion con un scope hacia tweet_id para que no se repita el like en el tweet.
+
+    def liked?(user)
+        !!self.likes.find{|like| like.user_id == user.id}        
+    end
+
+    validates :user_id, uniqueness: {scope: :tweet_id}
+
+Usamos el metodo user_signed_in? de devise y nuestro método liked? para verificar si el current_user ya dio like a ese tweet para crear un boton de like.
+
+use referencias de https://ichi.pro/es/post/13263942819266
 
 
 

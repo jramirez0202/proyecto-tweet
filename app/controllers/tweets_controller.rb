@@ -17,6 +17,11 @@ class TweetsController < ApplicationController
     @tweet = Tweet.new
   end
 
+  def like
+    @tweet = Tweet.all.find(params[:id])
+    Like.create(user_id: current_user.id, tweet_id: @tweet.id)
+    redirect_to tweet_path(@tweet)
+  end
   # GET /tweets/1/edit
   def edit
   end

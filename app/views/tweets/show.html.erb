@@ -2,7 +2,7 @@
   <p id="notice"><%= notice %></p>
       <div class="row">
           <div class="col-md-8">
-            <strong>Content:</strong>
+            <strong>Tweet:</strong>
             <%= @tweet.content %>
           </div>
       </div>
@@ -10,10 +10,32 @@
       <div class="row">
           <div class="col-md-8">
             <strong>Photo</strong>
-            <%=  %>
+            <%= current_user.photo_url%>
           </div>
       </div>
 
+      <div class="row">
+          <div class="col-md-8">
+            <strong>Likes</strong>
+            <%=Like.count%>
+          </div>
+      </div>
+
+
+      <div class="row">
+          <div class="col-md-8">
+            <strong>Retweets</strong>
+            <%=Retweet.count%>
+          </div>
+      </div>
+
+  <% if user_signed_in? %>
+    <% if @tweet.liked?(current_user) %>
+      <%= button_to 'Like', like_path(@tweet), method: 'put', disabled: true %>
+    <% else %>
+      <%= button_to 'Like', like_path(@tweet), method: 'put'%>
+    <% end %>
+  <% end %>
 
 
 
