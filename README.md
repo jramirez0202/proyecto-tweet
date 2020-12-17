@@ -131,6 +131,23 @@ Usamos el metodo user_signed_in? de devise y nuestro método liked? para verific
 
 use referencias de https://ichi.pro/es/post/13263942819266
 
+ HISTORIA 3
+
+*Estos tweets deben estar paginados y debe haber un link llamado "mostrar más tweets", al
+presionarlo nos llevará a los siguientes 50 tweets.
+
+Para paginar nuestros tweets nos ayudamos con la Gem 'kaminari' siguiendo la documentación procedemos a configurarla
+
+https://github.com/kaminari/kaminari
+
+paginamos los primeros 50 tweets en el modelo tweet.rb
+
+paginates_per 50
+
+configuramos el index del controlador tweets para que muestre los siguientes y previos 50 tweets usando los helpers
+
+<%= link_to_next_page @tweets, 'Show More Tweets' %>
+<%= link_to_prev_page @tweets, 'Show Previous Tweets' %>
 
 
 * Configuration
