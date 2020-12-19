@@ -150,6 +150,13 @@ configuramos el index del controlador tweets para que muestre los siguientes y p
 <%= link_to_prev_page @tweets, 'Show Previous Tweets' %>
 
 
+*Un usuario puede hacer like en un tweet, al hacerlo será redirigido a la página de inicio
+
+Cambiamos la ruta del PUT para redirigir al index 
+
+put '/tweet/:id/like', to: 'tweets#index', as: 'like'
+
+
 * Configuration
 
 * Database creation

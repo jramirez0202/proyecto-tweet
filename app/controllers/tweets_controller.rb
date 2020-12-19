@@ -7,6 +7,12 @@ class TweetsController < ApplicationController
     @tweets = Tweet.page params[:page]
   end
 
+  def user_tweets
+    if user_signed_in?
+      @tweets = current_user.tweets
+    end
+  end
+
   # GET /tweets/1
   # GET /tweets/1.json
   def show

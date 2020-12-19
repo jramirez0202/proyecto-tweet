@@ -1,5 +1,6 @@
 <div class= "container">
   <p id="notice"><%= notice %></p>
+  
       <div class="row">
           <div class="col-md-8">
             <strong>Tweet:</strong>
@@ -9,15 +10,22 @@
 
       <div class="row">
           <div class="col-md-8">
+            <strong>Name</strong>
+            <%= @tweet.user.name%>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-md-8">
             <strong>Photo</strong>
-            <%= current_user.photo_url%>
+            <%= @tweet.user.photo_url%>
           </div>
       </div>
 
       <div class="row">
           <div class="col-md-8">
             <strong>Likes</strong>
-            <%=Like.count%>
+            <%=@tweet.likes.count%>
           </div>
       </div>
 
@@ -25,21 +33,19 @@
       <div class="row">
           <div class="col-md-8">
             <strong>Retweets</strong>
-            <%=Retweet.count%>
           </div>
       </div>
 
   <% if user_signed_in? %>
     <% if @tweet.liked?(current_user) %>
-      <%= button_to 'Like', like_path(@tweet), method: 'put', disabled: true %>
+      <%= button_to 'Like', like_path(@tweet), method: :put, class: "far fa-heart", disabled: true %>
     <% else %>
-      <%= button_to 'Like', like_path(@tweet), method: 'put'%>
+      <%= button_to 'Like', like_path(@tweet), method: :put %>
     <% end %>
   <% end %>
 
 
 
-  <%= link_to 'Edit', edit_tweet_path(@tweet) %> |
   <%= link_to 'Back', tweets_path %>
 
 
