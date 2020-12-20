@@ -129,7 +129,7 @@ Creamos un metodo like en nuestro controlador en el creamos el like con user_id 
 
 Usamos el metodo user_signed_in? de devise y nuestro método liked? para verificar si el current_user ya dio like a ese tweet para crear un boton de like.
 
-use referencias de https://ichi.pro/es/post/13263942819266
+use referencias de https://ichi.pro/es/post/13263942819266 y over
 
  HISTORIA 3
 
@@ -153,7 +153,7 @@ configuramos el index del controlador tweets para que muestre los siguientes y p
 *HISTORIA 4
 
 
-Creamos un ruta hacie el formulario new tweet
+Creamos un ruta hacia el formulario new tweet
 
 new_user_registration_path
 
@@ -163,11 +163,13 @@ validamos que el tweet tenga contenido con un validates :content, presence: true
 
 creamos metodo create para like al final de la condicion usamos un redirect_to root_path para llevarnos a la pagina inicial.
 
-creamos los metodos dislike y like y Agregamos el campo button como booleano para usarlo como un switch donde true aplicará el metodo like y false dislike asi evitamos que el mismo user_id y tweet_id repitan la acción
+creamos los metodos dislike y like y Agregamos en el modelo  button como booleano para usarlo como un switch donde true aplicará el metodo like y false dislike asi evitamos que el mismo user_id y tweet_id repitan la acción
 
 * Configuration
 
 * Database creation
+
+
 
 * Database initialization
 

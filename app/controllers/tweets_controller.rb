@@ -7,6 +7,7 @@ class TweetsController < ApplicationController
   # GET /tweets.json
   def index
     @tweets = Tweet.page params[:page]
+    @tweets = Tweet.includes(:tweet, :user, :retweets).order("updated_at DESC").page
   end
 
   def user_tweets
@@ -23,6 +24,8 @@ class TweetsController < ApplicationController
   # GET /tweets/new
   def new
     @tweet = Tweet.new
+    @tweet_id = params[:tweet_id]
+  
   end
 
   def like
@@ -30,6 +33,17 @@ class TweetsController < ApplicationController
     Like.create(user_id: current_user.id, tweet_id: @tweet.id)
     redirect_to tweet_path(@tweet)
   end
+
+  def retweet
+    @tweet = set_tweet
+    @retweet = @tweet.retweets.new(user: current_user)
+    @retweet.save
+    rt = Tweet.new(content: @tweet.content, user: current_user)
+    rt.content += " reference to #{@tweet.user.name}"
+    rt.save
+    redirect_to root_path
+  end
+
   # GET /tweets/1/edit
   def edit
   end

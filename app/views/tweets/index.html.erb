@@ -3,43 +3,49 @@
 <h1>Tweets</h1>
 
 
-<div class="container m-3">
-  <% @tweets.each do |tweet| %>
-    <div class="container">
+  <div class="container mx-5">
+    <% @tweets.each do |tweet| %>
       <div class="container">
-        <span class="container"><%= tweet.user.name %></span>
-      </div>
-      <div class="container mx-3">
-        <%= tweet.content %>
-            <%if user_signed_in? %>
-              <%if current_user.id == tweet.user_id %>
-              <br>
-                <td><%= link_to 'Show', tweet %></td>
-                <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
-                <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-              <% end %>
-            <% end %>
-      </div>
-
-      <div class="row center">
-          <% if user_signed_in? %>
-            <div class="col-3">
-            <ul class="list-unstyled ml-5 py-1" >
-                <li><%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fas fa-paw" %></li>
-            </ul>
-            </div>
-              <hr>
+        <div class="container">
+          <span class="container"><%= tweet.user.name %></span>
+        </div>
+              <div class="container mx-3">
+                    <%= tweet.content %>
+                  <%if user_signed_in? %>
+                    <%if current_user.id == tweet.user_id %>
+                          <br>
+                            <td><%= link_to 'Show', tweet %></td>
+                            <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
+                            <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    <% end %>
+                  </div>
+                  <div class="row center">
+                  <div class="col-md-8">
+                    <ul class="list-unstyled ml-5 py-1" >
+                      <li>
+                        <%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fas fa-paw" %>
+                        <%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fas fa-retweet" %>
+                      </li>
+                    </ul>
+              </div>
+                <hr>
+                <% else %>
+                <br>
+                <%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fas fa-paw" %>
+                <%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fas fa-retweet" %>
+                <%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id) %>
           <% end %>
-      </div>
-          <% end %>
-      </div>
-<!-- Aplicar diseño aca -->
-  <div>
-      <%= link_to_next_page @tweets, 'Show More Tweets' %>
-      <%= link_to_prev_page @tweets, 'Show Previous Tweets' %>
-    <div>
-      <%= page_entries_info @tweets %>
-    </div>
+        </div>
+    <% end %>
   </div>
+
+      <!-- Aplicar diseño aca -->
+<div>
+  <%= link_to_next_page @tweets, 'Show More Tweets' %>
+  <%= link_to_prev_page @tweets, 'Show Previous Tweets' %>
+  <div>
+      <%= page_entries_info @tweets %>
+  </div>
+</div>
   <br>
 
