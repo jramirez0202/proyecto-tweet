@@ -2,30 +2,6 @@
 
 <h1>Tweets</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Content</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @tweets.each do |tweet| %>
-      <tr>
-        <td><%= tweet.content %></td>
-        <td><%= link_to 'Show', tweet %></td>
-          <%if user_signed_in? %>
-              <%if current_user.id == tweet.user_id %>
-                <td><%= link_to 'Show', tweet %></td>
-                <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
-                <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-              <% end %>
-            </tr>
-              <% end %>
-          <% end %>
-  </tbody>
-</table>
 
 <div class="container m-3">
   <% @tweets.each do |tweet| %>
@@ -33,7 +9,7 @@
       <div class="container">
         <span class="container"><%= tweet.user.name %></span>
       </div>
-      <div class="container mx-5">
+      <div class="container mx-3">
         <%= tweet.content %>
             <%if user_signed_in? %>
               <%if current_user.id == tweet.user_id %>
@@ -45,23 +21,25 @@
             <% end %>
       </div>
 
-      <div class="row justify-content-start">
+      <div class="row center">
           <% if user_signed_in? %>
-            <div class="col-1">
-                <%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fas fa-paw" %>
+            <div class="col-3">
+            <ul class="list-unstyled ml-5 py-1" >
+                <li><%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fas fa-paw" %></li>
+            </ul>
             </div>
               <hr>
           <% end %>
       </div>
-  <% end %>
-</div>
+          <% end %>
+      </div>
 <!-- Aplicar diseño aca -->
-<div>
-    <%= link_to_next_page @tweets, 'Show More Tweets' %>
-    <%= link_to_prev_page @tweets, 'Show Previous Tweets' %>
   <div>
-    <%= page_entries_info @tweets %>
+      <%= link_to_next_page @tweets, 'Show More Tweets' %>
+      <%= link_to_prev_page @tweets, 'Show Previous Tweets' %>
+    <div>
+      <%= page_entries_info @tweets %>
+    </div>
   </div>
-</div>
-<br>
+  <br>
 

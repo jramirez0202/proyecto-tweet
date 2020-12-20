@@ -150,12 +150,20 @@ configuramos el index del controlador tweets para que muestre los siguientes y p
 <%= link_to_prev_page @tweets, 'Show Previous Tweets' %>
 
 
-*Un usuario puede hacer like en un tweet, al hacerlo será redirigido a la página de inicio
+*HISTORIA 4
 
-Cambiamos la ruta del PUT para redirigir al index 
 
-put '/tweet/:id/like', to: 'tweets#index', as: 'like'
+Creamos un ruta hacie el formulario new tweet
 
+new_user_registration_path
+
+Usamos el user_signed_in? en el index y el before_action :authenticate_user!  para confirmar que el usuario este conectado y no sea una visita.
+
+validamos que el tweet tenga contenido con un validates :content, presence: true en el modelo tweet.rb
+
+creamos metodo create para like al final de la condicion usamos un redirect_to root_path para llevarnos a la pagina inicial.
+
+creamos los metodos dislike y like y Agregamos el campo button como booleano para usarlo como un switch donde true aplicará el metodo like y false dislike asi evitamos que el mismo user_id y tweet_id repitan la acción
 
 * Configuration
 
