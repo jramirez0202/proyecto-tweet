@@ -14,9 +14,9 @@
                   <%if user_signed_in? %>
                     <%if current_user.id == tweet.user_id %>
                           <br>
-                            <td><%= link_to 'Show', tweet %></td>
                             <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
                             <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                            <td><%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id) %></td>
                     <% end %>
                   </div>
                   <div class="row center">
@@ -31,9 +31,9 @@
                 <hr>
                 <% else %>
                 <br>
-                <%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fas fa-paw" %>
-                <%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fas fa-retweet" %>
-                <%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id) %>
+                <td><%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fas fa-paw" %></td>
+                <td><%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fas fa-retweet" %></td>
+                <td><%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id) %></td>
           <% end %>
         </div>
     <% end %>

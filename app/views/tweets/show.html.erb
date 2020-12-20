@@ -15,17 +15,24 @@
           </div>
       </div>
 
+
       <div class="row">
           <div class="col-md-8">
-            <strong>Photo</strong>
-            <%= @tweet.user.photo_url%>
+            <strong>Cant likes</strong>
+            <%= @tweet.likes.count%>
           </div>
       </div>
+
 
       <div class="row">
           <div class="col-md-8">
             <strong>Likes</strong>
-            <%=@tweet.likes.count%>
+            <%@tweet.likes.each do |like| %>
+            <ul>
+              <%=like.user.photo_url%>
+            </ul>
+              
+            <% end %>
           </div>
       </div>
 
