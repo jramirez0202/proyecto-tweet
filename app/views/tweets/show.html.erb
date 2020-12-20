@@ -36,15 +36,6 @@
           </div>
       </div>
 
-  <% if user_signed_in? %>
-    <% if @tweet.liked?(current_user) %>
-      <%= button_to 'Like', like_path(@tweet), method: :put, class: "far fa-heart", disabled: true %>
-    <% else %>
-      <%= button_to 'Like', like_path(@tweet), method: :put %>
-    <% end %>
-  <% end %>
-
-
 
   <%= link_to 'Back', tweets_path %>
 
