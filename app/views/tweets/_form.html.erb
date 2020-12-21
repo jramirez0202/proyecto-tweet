@@ -11,6 +11,10 @@
     </div>
   <% end %>
 
+  <div class="mt-3">
+  <%= image_tag (current_user.photo_url), class:"rounded-circle"%>
+  </div>
+
   <div class="field">
     <%= form.label :tweet %>
     <%= form.text_area :content %>

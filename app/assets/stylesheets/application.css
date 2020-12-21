@@ -14,3 +14,25 @@
  *= require_self
  *= require bootstrap
  */
+
+body
+{
+    background-color:#e8e8e8 !important;
+
+
+}
+
+.prueba{
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.fa-paw, .fa-retweet , .tweet-time, .edit, .destroy {
+    color:#17a2b8 ;
+}
+.rounded-circle{
+    max-width: 150px;
+    margin: 15px;
+    margin-left: 70px;
+
+}

@@ -39,7 +39,7 @@ class TweetsController < ApplicationController
     @retweet = @tweet.retweets.new(user: current_user)
     @retweet.save
     rt = Tweet.new(content: @tweet.content, user: current_user)
-    rt.content += " reference to #{@tweet.user.name}"
+    rt.content += " @#{@tweet.user.name}"
     rt.save
     redirect_to root_path
   end
