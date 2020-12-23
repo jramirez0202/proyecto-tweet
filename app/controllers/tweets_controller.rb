@@ -1,18 +1,19 @@
 class TweetsController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :authenticate_user! , only:[:index, :show]
-  before_action :set_tweet, only: [:show, :edit, :update, :destroy]
+  before_action :set_tweet, only: [:show, :edit, :update, :destroy, :create]
 
   # GET /tweets
   # GET /tweets.json
   def index
+    @tweet = Tweet.new
     @tweets = Tweet.page params[:page]
     @tweets = Tweet.includes(:tweet, :user, :retweets).order("updated_at DESC").page
   end
 
   def user_tweets
     if user_signed_in?
-      @tweets = current_user.tweets
+      @retweet = Tweet.find(params[:tweet_id])
     end
   end
 
@@ -25,8 +26,10 @@ class TweetsController < ApplicationController
   def new
     @tweet = Tweet.new
     @tweet_id = params[:tweet_id]
+    @retweet = Tweet.find(params[:tweet_id])
   
   end
+  
 
   def like
     @tweet = Tweet.all.find(params[:id])
@@ -39,7 +42,7 @@ class TweetsController < ApplicationController
     @retweet = @tweet.retweets.new(user: current_user)
     @retweet.save
     rt = Tweet.new(content: @tweet.content, user: current_user)
-    rt.content += " @#{@tweet.user.name}"
+    rt.content += " Retweet to @#{@tweet.user.name}"
     rt.save
     redirect_to root_path
   end
@@ -51,6 +54,7 @@ class TweetsController < ApplicationController
   # POST /tweets
   # POST /tweets.json
   def create
+    @tweet= Tweet.new
     @tweet = Tweet.new(tweet_params)
     @tweet = current_user.tweets.new(tweet_params)
 
@@ -92,7 +96,7 @@ class TweetsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tweet
-      @tweet = Tweet.find(params[:id])
+      @tweet = Tweet.find(params[:id]) if params[:id]
     end
 
     # Only allow a list of trusted parameters through.

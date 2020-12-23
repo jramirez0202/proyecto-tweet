@@ -1,0 +1,12 @@
+<%= form_with(model: @tweet, local: true) do |form| %>
+
+
+  <div class="field">
+    <div><%= form.label :tweet %></div>
+    <%= form.text_area :content %>
+  </div>
+
+  <div class="actions btn btn-outline-info">
+    <%= form.submit %>
+  </div>
+<% end %>
