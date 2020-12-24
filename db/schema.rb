@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_12_18_045036) do
 
   create_table "likes", force: :cascade do |t|
-    t.boolean "button", default: true
+    t.boolean "button", default: false
     t.integer "user_id"
     t.integer "tweet_id"
     t.datetime "created_at", precision: 6, null: false
