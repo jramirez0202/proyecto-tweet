@@ -22,11 +22,14 @@ body
 
 }
 
+
 .prueba{
     max-width: 800px;
     margin: 0 auto;
 }
-
+.fa-globe{
+    color: #ffff;
+}
 .fa-paw, .fa-retweet , .tweet-time, .edit, .destroy {
     color:#17a2b8 ;
 }

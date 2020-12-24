@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 
 <h1 style="text-align:center">Welcome Pets</h1>
 
@@ -32,18 +32,17 @@
                                 </div>
                                 <div class="">
                                 <div class="">
-                                  <ul style="list-style-type:none">
-                                    <li>
-                                      <%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fa fa-bug  m-2"  %>
-                                      <%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fa fa-bullseye m-2" %>
+                                  <ul style="list-style-type:none" >
+                                      <%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fa fa-paw  m-2"  %>
+                                      <%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fa fa-retweet m-2" %>
                                       <%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id), class:"tweet-time" %>
                                     </li>
                                   </ul>
                             </div>
                               <% else %>
                               <br>
-                              <td ><%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fas fa-paw m-2 mt-3 " %></td>
-                              <td ><%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fas fa-retweet m-2" %></td>
+                              <td ><%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fa fa-paw m-2 mt-3 " %></td>
+                              <td ><%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fa fa-retweet m-2" %></td>
                               <td ><%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id) ,class:"tweet-time"%></td>
                           <% end %>
 

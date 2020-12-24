@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Twitter to pets</title>
+    <title>Twitter To Pets</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -13,9 +13,9 @@
   
   
   <%= render '/layouts/navbar' %>
-
+<p  class="notice" style="text-align:center "><%= notice %></p>
     <%= yield %>  
-    <p class="notice"><%= notice %></p>
+    
     <p class="alert"><%= alert %></p>
   </body>
 </html>
