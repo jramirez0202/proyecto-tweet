@@ -8,7 +8,7 @@
 
   <div class="prueba">
   
-          <% @tweets.each do |tweet| %>
+        <% @tweets.each do |tweet| %>
             <div class="card mb-3" style="max-width: 740px; border-radius: 1.25rem">
               <div class="row g-0">
                 <div class="col-md-4">
@@ -18,42 +18,39 @@
                 <div class="col-md-8">
                   <div class="card-body">
                     <h5 class="card-title" style="color: #666; font-size: 24px; font-weight: 600;"><%= tweet.user.name %></h5>
-                      <div class="" style= "color: #666; font-weight: 550;">
+                        <div class="" style= "color: #666; font-weight: 550;">
 
-                          <%= tweet.content %>
-                        <%if user_signed_in? %>
-                        
-                        
-                          <%if current_user.id == tweet.user_id %>
-                                  <br>
-                                  <td><%= link_to 'Edit', edit_tweet_path(tweet),  class: "edit m-2 mt-3 " %></td>
-                                  <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } ,  class: "destroy m-2 mt-3"%></td>
-                          <% end %>
-                                </div>
-                                <div class="">
-                                <div class="">
-                                  <ul style="list-style-type:none" >
-                                      <%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fa fa-paw  m-2"  %>
-                                      <%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fa fa-retweet m-2" %>
-                                      <%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id), class:"tweet-time" %>
-                                    </li>
-                                  </ul>
-                            </div>
-                              <% else %>
-                              <br>
-                              <td ><%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fa fa-paw m-2 mt-3 " %></td>
-                              <td ><%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fa fa-retweet m-2" %></td>
-                              <td ><%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id) ,class:"tweet-time"%></td>
-                          <% end %>
-
-                
-              </div>
+                            <%= tweet.content %>
+                          <%if user_signed_in? %>
+                          
+                          
+                            <%if current_user.id == tweet.user_id %>
+                                    <br>
+                                    <td><%= link_to 'Edit', edit_tweet_path(tweet),  class: "edit m-2 mt-3 " %></td>
+                                    <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } ,  class: "destroy m-2 mt-3"%></td>
+                            <% end %>
+                                  </div>
+                                  <div class="">
+                                    <ul style="list-style-type:none" >
+                                        <%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fa fa-paw  m-2"  %>
+                                        <%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fa fa-retweet m-2" %>
+                                        <%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id), class:"tweet-time" %>
+                                      </li>
+                                    </ul>
+                                  </div>
+                            <% else %>
+                                <br>
+                                <td ><%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fa fa-paw m-2 mt-3 " %></td>
+                                <td ><%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fa fa-retweet m-2" %></td>
+                                <td ><%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id) ,class:"tweet-time"%></td>
+                            <% end %>
+                      </div>
                   </div>
-              </div>
+                </div>
           </div>
-      </div>
-    <% end %>
+        <% end %>
   </div>
+          
 <div style="text-align:center">
     <%= link_to_next_page @tweets, 'Show More Tweets' %>
     <%= link_to_prev_page @tweets, 'Show Previous Tweets' %>

@@ -162,6 +162,21 @@ en la vista show recorremos el arreglo en like para traernos todas las fotos de 
 Usamos los metodos que trae rails y con los videos de la clase como guia la hora la usamos como link hacia la vista tweet_path
 <%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id) %>
 
+*Hacer que un usuario conectado pueda seguir a otros usuarios y tener acceso a su contenido
+
+creamos el modelo friendship con follower_id y followed_id para asociarlo al modelo user con has_many
+
+rails g model Friendship follower_id:integer followed_id:integer
+
+usamos referencias 
+https://levelup.gitconnected.com/how-to-create-a-follow-unfollow-button-in-your-rails-social-media-application-e4081c279bca
+En user.rb creamos la asociacion 1 a N con la llave foranea de follower_id
+
+has_many :active_friendships, class_name: 'Friendship', foreign_key: "follower_id", dependent: :destroy
+
+En friendship.rb 
+
+Al contrario de user lo creamos dependiente del modelo user y validamos que la presencia de las columnas follower_id y followed_id este (true)
 * Configuration
 
 * Database creation
