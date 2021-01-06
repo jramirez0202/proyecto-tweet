@@ -177,6 +177,29 @@ has_many :active_friendships, class_name: 'Friendship', foreign_key: "follower_i
 En friendship.rb 
 
 Al contrario de user lo creamos dependiente del modelo user y validamos que la presencia de las columnas follower_id y followed_id este (true)
+
+*Implementar un buscador que pueda buscar tweets, para esto se debe hacer una búsqueda
+parcial ya que el contenido puede ser solo parte de un tweet.
+
+Usamos un formulario para la barra de busqueda en el creamos un action con ruta al root "/", como queremos que nuestra barra de busqueda filtre los contenido de los tweets y no una palabra especifica colocamos el name= :q para pasarlo los datos del tweet espeficicamente el contenido del tweet para luego buscar los params[:q] del mismo.
+
+<input class="form-control mr-sm-2" type="search" placeholder="Search Twitter" aria-label="Search" name="q">
+
+En el tweets_controller.rb en el metodo index, validamos la presencia de los params de ser asi usamos una variable llamada "search" para agregar los params de :q para luego hacer una busqueda en la columna content del modelo tweet e interpolamos la variable con los params[:q]
+
+  def index
+    @tweet = Tweet.new
+    if params[:q].present?
+      search = params[:q]
+      @tweets = Tweet.where('content LIKE ?', "%#{search}%")
+    else
+      @tweets = Tweet.page params[:page]
+      @tweets = Tweet.includes(:tweet, :user, :retweets).order("updated_at DESC").page
+    end
+  end
+
+  probemos la barra de busqueda.
+
 * Configuration
 
 * Database creation
