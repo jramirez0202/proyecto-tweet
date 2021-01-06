@@ -7,8 +7,13 @@ class TweetsController < ApplicationController
   # GET /tweets.json
   def index
     @tweet = Tweet.new
-    @tweets = Tweet.page params[:page]
-    @tweets = Tweet.includes(:tweet, :user, :retweets).order("updated_at DESC").page
+    if params[:q].present?
+      search = params[:q]
+      @tweets = Tweet.where('content LIKE ?', "%#{search}%")
+    else
+      @tweets = Tweet.page params[:page]
+      @tweets = Tweet.includes(:tweet, :user, :retweets).order("updated_at DESC").page
+    end
   end
 
   def user_tweets

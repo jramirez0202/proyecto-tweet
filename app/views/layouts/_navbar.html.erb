@@ -10,23 +10,20 @@
               <li class="nav-item mx-3 "> 
                 <a class="nav-link"> <%=link_to 'Sign Out', destroy_user_session_path, method: :delete %></a>
               </li>
+              <form class="form-inline my-2 my-lg-0" action="/">
+                <%= hidden_field_tag :authenticity_token, form_authenticity_token, id: :form_token %>
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Twitter" aria-label="Search" name="q">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+              </form>
             <% else %>
-
             <li class="nav-item mr-3">
               <a class="nav-link"> <%=link_to 'Registration', new_user_registration_path %></a>
             </li>
-
             <li class="nav-item mr-3 pb-3 "> 
               <a class="nav-link"> <%=link_to 'Sign In', user_session_path %></a>
             </li>
             <% end %>
           </ul>
-            <div>
-              <form class="form-inline">
-                <input class="form-control" type="search" placeholder="Search Twitter" aria-label="Search">
-                <button class="btn btn-outline-primary" type="submit">Search</button>
-              </form>
-          </div>
         </div>
       </div>
 </nav>

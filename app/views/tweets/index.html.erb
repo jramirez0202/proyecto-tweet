@@ -2,13 +2,13 @@
 
 <h1 style="text-align:center">Welcome Pets</h1>
 
-<div style="text-align:center"> 
+<div style="text-align:center">
 
-<%= render partial: 'newtweet', tweet: @tweet %> </div>
+  <%= render partial: 'newtweet', tweet: @tweet %> </div>
 
   <div class="prueba">
   
-        <% @tweets.each do |tweet| %>
+          <% @tweets.each do |tweet| %>
             <div class="card mb-3" style="max-width: 740px; border-radius: 1.25rem">
               <div class="row g-0">
                 <div class="col-md-4">
@@ -31,32 +31,44 @@
                             <% end %>
                                   </div>
                                   <div class="">
+                                  <div class="">
                                     <ul style="list-style-type:none" >
                                         <%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fa fa-paw  m-2"  %>
                                         <%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fa fa-retweet m-2" %>
                                         <%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id), class:"tweet-time" %>
                                       </li>
                                     </ul>
-                                  </div>
-                            <% else %>
+                              </div>
+                                <% else %>
                                 <br>
                                 <td ><%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fa fa-paw m-2 mt-3 " %></td>
                                 <td ><%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fa fa-retweet m-2" %></td>
                                 <td ><%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id) ,class:"tweet-time"%></td>
                             <% end %>
+                        </div>
                       </div>
                   </div>
                 </div>
-          </div>
-        <% end %>
-  </div>
+          <div>
           
-<div style="text-align:center">
-    <%= link_to_next_page @tweets, 'Show More Tweets' %>
-    <%= link_to_prev_page @tweets, 'Show Previous Tweets' %>
-  <div style="text-align:center">
-        <%= page_entries_info @tweets %>
+            <%#if !current_user?(@user)%>
+              <%#if current_user.following?(@user)%>
+                <td><%#= botton_to "Follow", friendships_path(user_id: @user.id), class: "btn btn-primary"%></td>
+              <% #end %>
+            <% #end %>
+          </div>
   </div>
+    <% end %>
+  </div>
+    <%if params[:q].present? == false %>
+      <div style="text-align:center">
+          <%= link_to_next_page @tweets, 'Show More Tweets' %>
+          <%= link_to_prev_page @tweets, 'Show Previous Tweets' %>
+      </div>
+      <div style="text-align:center">
+        <%= page_entries_info @tweets %>
+      </div>
+    <% end %>
 </div>
 
 
