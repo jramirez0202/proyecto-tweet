@@ -26,6 +26,7 @@ gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'font-awesome-rails'
+gem 'activeadmin'
 # Use Active Storage variant
 
 # gem 'image_processing', '~> 1.2'

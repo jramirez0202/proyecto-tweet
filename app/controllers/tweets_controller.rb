@@ -47,7 +47,7 @@ class TweetsController < ApplicationController
     @retweet = @tweet.retweets.new(user: current_user)
     @retweet.save
     rt = Tweet.new(content: @tweet.content, user: current_user)
-    rt.content += "Retweet to @#{@tweet.user.name}"
+    rt.content += " Retweet to @#{@tweet.user.name}"
     rt.save
     redirect_to root_path
   end
@@ -87,7 +87,22 @@ class TweetsController < ApplicationController
       end
     end
   end
+  # Metodos follow y unfollow
 
+  def follow
+    user = User.find(params[:id])
+    follows = Friendship.new(follower_id: user, followed_id: current_user)
+    follows.save
+    redirect_to root_path
+  end
+
+  def destroy_following
+    user = User.find(params[:id])
+    friend = current_user.users_i_follow(user)
+    friend.destroy
+    redirect_to root_path
+  end
+  
   # DELETE /tweets/1
   # DELETE /tweets/1.json
   def destroy

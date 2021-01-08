@@ -50,7 +50,16 @@
                   </div>
                 </div>
           <div>
-          
+          <div> 
+            <%if user_signed_in? %>
+              <% unless tweet.user.user_following_me(current_user) %>
+                <span><%= link_to  "Follow", create_friendships_tweet_path(tweet.user.id), method: :post, class: "tweet--date" %></span>
+              <% end%>
+              <% if current_user.users_i_follow(tweet.user) %>
+                <span><%= link_to  "Unfollow", destroy_following_path(tweet.user.id), method: :delete, class: "tweet--date" %></span>
+              <% end%>
+            <%end%>
+              </div>
             <%#if !current_user?(@user)%>
               <%#if current_user.following?(@user)%>
                 <td><%#= botton_to "Follow", friendships_path(user_id: @user.id), class: "btn btn-primary"%></td>

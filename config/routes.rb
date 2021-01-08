@@ -1,15 +1,23 @@
 Rails.application.routes.draw do
 
 
-  get 'friendships/create'
-  get 'friendships/destroy'
-  # post 'likes/:tweet_id', to: 'likes#create', as: 'likes'
-  # resources :tweets do
-  #   resources :likes
-  # end
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
 
-  resources :tweets
-  resources :friendships, only: [:create,:destroy]
+#rutas para el follow unfollow
+  resources :tweets do
+    member do
+      post 'fiendships/:id', to: 'tweets#friendship', as: 'create_friendships'
+    end
+  end
+  
+  delete 'fiendships/:id', to: 'tweets#destroy_following', as: 'destroy_following'
+
+  # get 'friendships/create'
+  # get 'friendships/destroy'
+
+
+
 
   devise_for :users, controllers: {
     registrations: 'users/registrations'
