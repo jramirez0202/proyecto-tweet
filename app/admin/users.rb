@@ -5,7 +5,31 @@ ActiveAdmin.register User do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :email, :name
+  permit_params :email, :name, :password
+
+  filter :email, as: :select
+  filter :name
+
+
+  form do |f|
+      inputs 'Add new user' do
+      input :email
+      input :password
+      actions
+    end
+  end
+    
+  controller do
+  def update
+    if (params[:user][:password].blank? && params[:user]
+        [:password_confirmation].blank?)
+        params[:user].delete("password")
+        params[:user].delete("password_confirmation")
+    end
+        super
+    end
+  end
+    
 
   #
   # or

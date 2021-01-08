@@ -7,11 +7,11 @@ Rails.application.routes.draw do
 #rutas para el follow unfollow
   resources :tweets do
     member do
-      post 'fiendships/:id', to: 'tweets#friendship', as: 'create_friendships'
+      post 'follow/:id', to: 'tweets#follow', as: 'follow'
     end
   end
   
-  delete 'fiendships/:id', to: 'tweets#destroy_following', as: 'destroy_following'
+  delete 'follow/:id', to: 'tweets#destroy_following', as: 'destroy_following'
 
   # get 'friendships/create'
   # get 'friendships/destroy'

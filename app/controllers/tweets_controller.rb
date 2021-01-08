@@ -65,7 +65,7 @@ class TweetsController < ApplicationController
 
     respond_to do |format|
       if @tweet.save
-        format.html { redirect_to @tweet, notice: 'Tweet was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Tweet was successfully created.' }
         format.json { render :show, status: :created, location: @tweet }
       else
         format.html { render :new }
@@ -88,10 +88,10 @@ class TweetsController < ApplicationController
     end
   end
   # Metodos follow y unfollow
-
+  
   def follow
     user = User.find(params[:id])
-    follows = Friendship.new(follower_id: user, followed_id: current_user)
+    follows = Friend.new(user: user, friend: current_user)
     follows.save
     redirect_to root_path
   end

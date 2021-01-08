@@ -16,6 +16,7 @@ ActiveAdmin.register Tweet do
 
 
 
+
   
     # form do |f|
     #   inputs "Details" do

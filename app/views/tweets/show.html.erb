@@ -30,6 +30,7 @@
             <%@tweet.likes.each do |like| %>
             <ul style="list-style-type:none">
               <%= image_tag (like.user.photo_url), class:"rounded-circle"%>
+              <%=@tweet.likes.user%>
             </ul>
             <% end %>
           </div>
