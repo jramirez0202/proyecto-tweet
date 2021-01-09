@@ -24,7 +24,7 @@ body
 
 
 .prueba{
-    max-width: 800px;
+    max-width: 692px;
     margin: 0 auto;
 }
 .fa-globe{
@@ -38,4 +38,75 @@ body
     margin: 15px;
     margin-left: 70px;
 
+}
+
+.logo-title> a{
+    text-decoration: none
+}
+
+.logo-title> a:hover{
+    text-decoration: none;
+    background:none ;
+    color:#ffff
+}
+
+.navbar-collapse{
+    margin-left:980px;
+}
+
+.form-inline >.btn-outline-primary {
+    color: #fff;
+    border: none;
+    background: #666;
+}
+
+
+form input[type="submit"]{
+    border-radius: 0px;
+}
+
+form input[type="submit"]:hover{
+    background:none
+}
+
+.field > #tweet_content{
+    width: 20%;
+}
+
+form >.actions{
+    border:none
+}
+
+.card-tweet > ul{
+    margin-left: -27px;
+    margin-top: 11px
+}
+
+.card-tweet > ul >a:hover{
+    background:none
+}
+
+.followers{
+    margin-left: 254px;
+    margin-top: -23px;
+}
+
+.container-followers{
+    margin-top: 17px;
+    color: #666;
+    font-size: 18px;
+    font-weight: 600;
+}
+.container-followers > .div-following{
+    display: inline-block;
+    margin-left: 10px;
+}
+.container-followers > .div-followers{
+    display: inline-block;
+}
+
+.navbar-collapse >.navbar-nav> .user-online {
+    margin-top: 8px;
+    font-size: 15px;
+    margin-top:12px
 }

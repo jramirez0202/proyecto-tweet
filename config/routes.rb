@@ -3,7 +3,10 @@ Rails.application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }
+  # post 'users/sign_up'
 #rutas para el follow unfollow
   resources :tweets do
     member do
@@ -19,9 +22,6 @@ Rails.application.routes.draw do
 
 
 
-  devise_for :users, controllers: {
-    registrations: 'users/registrations'
-  }
 
   root to: "tweets#index"
   post 'likes/:tweet_id', to: 'likes#create', as: 'likes'

@@ -5,6 +5,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
         :recoverable, :rememberable, :validatable
 
+  
+  
   has_many :tweets
   has_many :likes
   has_many :retweets
@@ -23,20 +25,5 @@ class User < ApplicationRecord
     self.following.find_by(user_id: user.id)
   end
   
-  # def follow(user)
-  #   active_friendships.create(followed_id: user.id)
-  # end  
 
-  # def unfollow(user)
-  #   active_friendships.find_by(followed_id: user.id).destroy    
-  # end
-    
-  # def following?(user)
-  #   following.include?(user)
-  # end
-
-  # def follower?(user)
-  #   followers.include?(user)
-    
-  # end
 end

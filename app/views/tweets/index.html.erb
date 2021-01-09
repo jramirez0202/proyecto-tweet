@@ -1,7 +1,6 @@
 
 
 <h1 style="text-align:center">Welcome Pets </h1>
-
 <div style="text-align:center">
 
   <%= render partial: 'newtweet', tweet: @tweet %> </div>
@@ -9,7 +8,7 @@
         <div class="prueba">
   
           <% @tweets.each do |tweet| %>
-            <div class="card mb-3" style="max-width: 740px; border-radius: 1.25rem">
+            <div class="card mb-3" style="max-width: 740px; border-radius: 1.25rem ; border: 0.10rem solid #17a2b8" >
               <div class="row g-0">
                 <div class="col-md-4">
                   <div class= "">
@@ -29,7 +28,7 @@
                             <% end %>
                                   </div>
                                   <div class="">
-                                  <div class="">
+                                  <div class="card-tweet">
                                     <ul style="list-style-type:none" >
                                         <%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fa fa-paw  m-2"  %>
                                         <%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fa fa-retweet m-2" %>
@@ -48,7 +47,7 @@
                       </div>
                   </div>
                 </div>
-            <div>
+            <div class="followers">
               <div> 
                   <%if user_signed_in? %>
                   <% unless tweet.user.user_following_me(current_user) %>
@@ -59,10 +58,10 @@
                 <%end%>
                 <%end %>
               </div>
-            <div>
-              <%= "I am " + tweet.user.name  %>
-              <h3>Followers: <%= tweet.user.followers.count %> </h3>
-              <h3>Following: <%= tweet.user.following.count %> </h3>
+            <div class="container-followers">
+              
+              <div class="div-followers">Followers: <%= tweet.user.followers.count %> </div>
+              <div class="div-following">Following: <%= tweet.user.following.count %> </div>
             </div> 
 
             </div>
