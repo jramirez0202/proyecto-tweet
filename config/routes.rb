@@ -19,10 +19,6 @@ Rails.application.routes.draw do
   # get 'friendships/create'
   # get 'friendships/destroy'
 
-
-
-
-
   root to: "tweets#index"
   post 'likes/:tweet_id', to: 'likes#create', as: 'likes'
   post 'tweets/:id', to: 'tweets#retweet'
