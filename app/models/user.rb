@@ -14,9 +14,6 @@ class User < ApplicationRecord
   has_many :followers, class_name: 'Friend', foreign_key: 'user_id'
   has_many :following, class_name: 'Friend', foreign_key: 'friend_id'
 
-  # validates :follower_id, presence: true
-  # validates :followed_id, presence: true
-
   def user_following_me(user)
     self.followers.find_by(friend_id: user.id)
   end
@@ -24,6 +21,4 @@ class User < ApplicationRecord
   def users_i_follow(user)
     self.following.find_by(user_id: user.id)
   end
-  
-
 end
