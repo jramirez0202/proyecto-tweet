@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_06_151115) do
+ActiveRecord::Schema.define(version: 2021_01_09_143019) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -73,6 +73,19 @@ ActiveRecord::Schema.define(version: 2021_01_06_151115) do
     t.index ["user_id"], name: "index_retweets_on_user_id"
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tags_tweets", id: false, force: :cascade do |t|
+    t.integer "tag_id"
+    t.integer "tweet_id"
+    t.index ["tag_id"], name: "index_tags_tweets_on_tag_id"
+    t.index ["tweet_id"], name: "index_tags_tweets_on_tweet_id"
+  end
+
   create_table "tweets", force: :cascade do |t|
     t.text "content"
     t.datetime "created_at", precision: 6, null: false
@@ -102,5 +115,7 @@ ActiveRecord::Schema.define(version: 2021_01_06_151115) do
   add_foreign_key "likes", "users"
   add_foreign_key "retweets", "tweets"
   add_foreign_key "retweets", "users"
+  add_foreign_key "tags_tweets", "tags"
+  add_foreign_key "tags_tweets", "tweets"
   add_foreign_key "tweets", "users"
 end

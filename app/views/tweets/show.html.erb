@@ -30,7 +30,6 @@
             <%@tweet.likes.each do |like| %>
             <ul style="list-style-type:none">
               <%= image_tag (like.user.photo_url), class:"rounded-circle"%>
-              <%=@tweet.likes.user%>
             </ul>
             <% end %>
           </div>
@@ -43,6 +42,21 @@
             <%= @tweet.retweets.count%>
           </div>
       </div>
+
+      <div class="row">
+          <div class="col-md-8">
+            <strong>Followers</strong>
+            <%= @tweet.user.followers.count %>
+          </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8">
+          <strong>Followings</strong>
+            <%= @tweet.user.following.count %>
+        </div>
+      </div>
+    
 
 
   <%= link_to 'Back', tweets_path %>

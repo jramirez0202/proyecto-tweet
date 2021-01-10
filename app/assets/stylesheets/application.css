@@ -73,6 +73,11 @@ form input[type="submit"]:hover{
     width: 20%;
 }
 
+.field > #user_email, #user_password, 
+#user_password_confirmation, #user_name, #user_photo_url{
+    width: 20%;
+}
+
 form >.actions{
     border:none
 }

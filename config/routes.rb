@@ -16,9 +16,8 @@ Rails.application.routes.draw do
   
   delete 'follow/:id', to: 'tweets#destroy_following', as: 'destroy_following'
 
-  # get 'friendships/create'
-  # get 'friendships/destroy'
-
+  #route del modelo tag
+  get '/tweets/hashtag/:name', to:'tweets#hashtags'
   root to: "tweets#index"
   post 'likes/:tweet_id', to: 'likes#create', as: 'likes'
   post 'tweets/:id', to: 'tweets#retweet'

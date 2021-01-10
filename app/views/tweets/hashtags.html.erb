@@ -1,9 +1,6 @@
-
-
 <h1 style="text-align:center">Welcome Pets </h1>
 <div style="text-align:center">
 
-  <%= render partial: 'newtweet', tweet: @tweet %> </div>
 
         <div class="prueba">
   
@@ -19,8 +16,7 @@
                     <h5 class="card-title" style="color: #666; font-size: 24px; font-weight: 600;"><%= tweet.user.name %></h5>
                         <div class="" style= "color: #666; font-weight: 550;">
 
-
-                          <p class="card-text"><%= render_with_hashtags(tweet.content) %></p>
+                            <%= tweet.content %>
                           <%if user_signed_in? %>
                             <%if current_user.id == tweet.user_id %>
                                 <br>
@@ -34,7 +30,7 @@
                                         <%= link_to "#{tweet.global_likes}", likes_path(tweet.id), method: :post, class: "fa fa-paw  m-2"  %>
                                         <%= link_to tweet.retweets.size, tweet_path(tweet.id), method: :post, class: "fa fa-retweet m-2" %>
                                         <%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id), class:"tweet-time" %>
-                                        
+                                        <p class="card-text" style="color: #666; font-size: 24px;"><%= render_with_hashtags(tweet.content) %></p>
                                       </li>
                                     </ul>
                               </div>
@@ -80,6 +76,3 @@
       </div>
     <% end %>
 </div>
-
-
-

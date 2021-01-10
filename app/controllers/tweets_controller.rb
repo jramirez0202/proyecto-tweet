@@ -32,6 +32,7 @@ class TweetsController < ApplicationController
     @tweet = Tweet.new
     @tweet_id = params[:tweet_id]
     @retweet = Tweet.find(params[:tweet_id])
+    redirect_to root_path
   
   end
   
@@ -50,6 +51,11 @@ class TweetsController < ApplicationController
     rt.content += " Retweet to @#{@tweet.user.name}"
     rt.save
     redirect_to root_path
+  end
+
+  def hashtags
+    tag = Tag.find_by(name: params[:name])
+    @tweets = tag.tweets.page
   end
 
   # GET /tweets/1/edit
