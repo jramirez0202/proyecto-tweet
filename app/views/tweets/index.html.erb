@@ -51,22 +51,20 @@
                 </div>
             <div class="followers">
               <div> 
-                  <%if user_signed_in? %>
+                <%if user_signed_in? %>
                   <% unless tweet.user.user_following_me(current_user) %>
-                  <span><%= button_to  "Follow", follow_tweet_path(tweet.user.id), method: :post, class: "tweet--date" %></span>
-                <% end%>
-                  <% if current_user.users_i_follow(tweet.user) %>
-                  <span><%= button_to  "Unfollow", destroy_following_path(tweet.user.id), method: :delete, class: "tweet--date" %></span>
+                      <span><%= button_to  "Follow", follow_tweet_path(tweet.user.id), method: :post, class: "tweet--date" %></span>
+                    <% end%>
+                <% if current_user.users_i_follow(tweet.user) %>
+                      <span><%= button_to  "Unfollow", destroy_following_path(tweet.user.id), method: :delete, class: "tweet--date" %></span>
                 <%end%>
                 <%end %>
+                </div>
+                <div class="container-followers">
+                  <div class="div-followers">Followers: <%= tweet.user.followers.count %> </div>
+                  <div class="div-following">Following: <%= tweet.user.following.count %> </div>
+                </div> 
               </div>
-            <div class="container-followers">
-              
-              <div class="div-followers">Followers: <%= tweet.user.followers.count %> </div>
-              <div class="div-following">Following: <%= tweet.user.following.count %> </div>
-            </div> 
-
-            </div>
             </div>
           <% end %>
     </div>

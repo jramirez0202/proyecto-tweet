@@ -164,19 +164,74 @@ Usamos los metodos que trae rails y con los videos de la clase como guia la hora
 
 *Hacer que un usuario conectado pueda seguir a otros usuarios y tener acceso a su contenido
 
-creamos el modelo friendship con follower_id y followed_id para asociarlo al modelo user con has_many
+creamos el modelo friend con follower_id y followed_id para asociarlo al modelo user con has_many
 
-rails g model Friendship follower_id:integer followed_id:integer
+rails g model Friend follower_id:integer followed_id:integer
+
+otra forma de hacerlo con referencias 
+
+rails g model Friend follower_id:integer followed_id:integer references: user
 
 usamos referencias 
 https://levelup.gitconnected.com/how-to-create-a-follow-unfollow-button-in-your-rails-social-media-application-e4081c279bca
 En user.rb creamos la asociacion 1 a N con la llave foranea de follower_id
 
-has_many :active_friendships, class_name: 'Friendship', foreign_key: "follower_id", dependent: :destroy
+  has_many :followers, class_name: 'Friend', foreign_key: 'user_id'
+  has_many :following, class_name: 'Friend', foreign_key: 'friend_id'
 
-En friendship.rb 
+  asociamos con friend.rb
 
-Al contrario de user lo creamos dependiente del modelo user y validamos que la presencia de las columnas follower_id y followed_id este (true)
+    belongs_to :user, class_name: 'User'
+    belongs_to :friend, class_name: 'User'
+
+En friend.rb 
+
+Debemos implementar las rutas para el mismo 
+
+  resources :tweets do
+    member do
+      post 'follow/:id', to: 'tweets#follow', as: 'follow'
+    end
+  end
+
+Tenemos asociacion entre modelos tambien tenemos la ruta ahora vayamos al controlador de tweets (tweets_controller.rb) y agregamos los metodos para cada caso 
+  
+  # Metodos follow y unfollow
+  
+  def follow
+    user = User.find(params[:id])
+    follows = Friend.new(user: user, friend: current_user)
+    follows.save
+    redirect_to root_path
+  end
+
+  def destroy_following
+    user = User.find(params[:id])
+    friend = current_user.users_i_follow(user)
+    friend.destroy
+    redirect_to root_path
+  end
+
+  Tambien en el modelo user agregamos los metodos para que cada modelo busquen el id unico del usuario y no se repita.
+
+    def user_following_me(user)
+    self.followers.find_by(friend_id: user.id)
+  end
+      
+  def users_i_follow(user)
+    self.following.find_by(user_id: user.id)
+  end
+
+  Debemos agregarlo a nuestro index y lo condicionamos de la siguiente manera
+
+              <%if user_signed_in? %>
+                  <% unless tweet.user.user_following_me(current_user) %>
+                      <span><%= button_to  "Follow", follow_tweet_path(tweet.user.id), method: :post, class: "tweet--date" %></span>
+                  <% end%>
+                <% if current_user.users_i_follow(tweet.user) %>
+                      <span><%= button_to  "Unfollow", destroy_following_path(tweet.user.id), method: :delete, class: "tweet--date" %></span>
+                <%end%>
+              <%end %>
 
 *Implementar un buscador que pueda buscar tweets, para esto se debe hacer una búsqueda
 parcial ya que el contenido puede ser solo parte de un tweet.
@@ -200,9 +255,184 @@ En el tweets_controller.rb en el metodo index, validamos la presencia de los par
 
   probemos la barra de busqueda.
 
+Instalando la gema ActiveAdmin para gestion de la RRSS
+
+En este paso debemos instalar la gem ActiveAdmin en nuestro gemfile hacemos bundle y siguiendo la documentacion instalamos con la consola.
+Debemos agregar los modelos Tweet y User para la gestion del usuario admin, debemos agregar las columnas en app/admin/tweets.rb para informacion a detalle de lo que se publica en la RRSS y los params permitidos para el mismo 
+
+  permit_params :content, :user_id, :global_likes
+
+  index do
+    column :user_id
+    column :name do |tweet|
+    tweet.user.name
+    end
+    column :content
+    column :retweets do |tweet|
+    tweet.retweets.count
+    end
+    column :likes do |tweet|
+    tweet.likes.count
+    end
+    column :folowers_id do |tweet|
+    tweet.user.followers.count  
+    end
+    column :folowings_id do |tweet|
+      tweet.user.following.count
+      end
+    actions
+  end
+
+  Para agilizar la busqueda colocamos un filtro con create_at
+
+  filter :created_at, as: :date_range
+
+  En app/admin/users.rb se agrega un bloque para un crear un nuevo usuario y para eliminar 
+
+    form do |f|
+      inputs 'Add new user' do
+      input :email
+      input :name
+      input :password
+      actions
+    end
+  end
+    
+  controller do
+  def update
+    if (params[:user][:password].blank? && params[:user]
+        [:password_confirmation].blank?)
+        params[:user].delete("password")
+        params[:user].delete("password_confirmation")
+    end
+        super
+    end
+  end
+
+  Tambien los parametros permitidos para users con un par de filtros para ayudar a la busqueda de usuarios.
+
+    permit_params :email, :name, :password
+
+  filter :email, as: :select
+  filter :name
+
+
+  creacion del hashtag para los tweets
+
+  Creamos un modelo llamado tag para referenciarlo al modelo ya creado tweets.rb pero con la diferencia que esta asociacion sera de N a N veamos
+
+  rails g model Tag name:string
+
+  rails db:migrate
+
+  luego hacemos una migracion donde creamos tags_tweets que con refrencias a tag y a tweets en ese orden 
+
+  rails migration CreateTagsTweets references: tags references tweets
+
+  class CreatesTagsTweets < ActiveRecord::Migration[6.0]
+  def change
+    create_table :tags_tweets, id: false do |t|
+      t.references :tag, index: true, foreign_key: true
+      t.references :tweet, index: true, foreign_key: true
+    end
+  end
+end
+
+En tweets.rb y tags.rb agregamos las referencias anteriomente nombradas de N a N
+
+has_and_belongs_to_many :tags
+
+has_and_belongs_to_many :tweets
+
+
+Luego agragamos dos bloques de codigo para evaluar contenido antes y y despues de crear 
+
+  after_create do
+        tweet = Tweet.find_by(id: self.id)
+        hashtags = self.content.scan(/#\w+/)
+        hashtags.uniq.map do |hashtag|
+            tag = Tag.find_or_create_by(name: hashtag.downcase.delete('#'))
+            tweet.tags << tag
+        end
+    end
+
+
+    before_update do
+        tweet = Tweet.find_by(id: self.id)
+        hashtags = self.content.scan(/#\w+/)
+        hashtags.uniq.map do |hashtag|
+            tag = Tag.find_or_create_by(name: hashtag.downcase.delete('#'))
+            tweet.tags << tag
+        end
+    end
+
+ Antes de crear y despues se evalua que sea el id del mismo tweet luego la variable hashtag revisa el contenido buscando el caracter # luego hace luego itera con la variable tag que busca o crea en name (recordemos lo definimos en el modelo tag como string) con el downcase converitimos el string en minusculas y al final se hace un push hacia tweets.tag
+
+
+ debemos crear la ruta donde van a estar los hashtags en routes.rb
+
+
+
+  get '/tweets/hashtag/:name', to:'tweets#hashtags'
+
+  ahora vamos al controlador tweet y creamos el metodo hastags y creamos su vista hashtags.html.erb
+
+    def hashtags
+    tag = Tag.find_by(name: params[:name])
+    @tweets = tag.tweets.page
+  end
+
+  y agregamos un metodo al tweets_helper.rb 
+
+      def render_with_hashtags(content)
+        content.gsub(/#\w+/){ |word| link_to word, "/tweets/hashtag/#{word.downcase.delete('#')}"}.html_safe
+    end
+
+  En la vista hashtags.html.erb
+
+  ponemos la vista index y el el render del metodo que pusimos en el helper anteior
+
+  <p><%= render_with_hashtags(tweet.content) %></p>
+
+
 * Configuration
 
 * Database creation
+
+create_table "active_admin_comments", force: :cascade do |t|
+    t.string "namespace"
+    t.text "body"
+    t.string "resource_type"
+    t.integer "resource_id"
+    t.string "author_type"
+    t.integer "author_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
+    t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
+    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+  end
+
+  create_table "admin_users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_admin_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "friends", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "friend_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["friend_id"], name: "index_friends_on_friend_id"
+    t.index ["user_id"], name: "index_friends_on_user_id"
+  end
 
   create_table "likes", force: :cascade do |t|
     t.boolean "button", default: true
@@ -221,6 +451,19 @@ En el tweets_controller.rb en el metodo index, validamos la presencia de los par
     t.datetime "updated_at", precision: 6, null: false
     t.index ["tweet_id"], name: "index_retweets_on_tweet_id"
     t.index ["user_id"], name: "index_retweets_on_user_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tags_tweets", id: false, force: :cascade do |t|
+    t.integer "tag_id"
+    t.integer "tweet_id"
+    t.index ["tag_id"], name: "index_tags_tweets_on_tag_id"
+    t.index ["tweet_id"], name: "index_tags_tweets_on_tweet_id"
   end
 
   create_table "tweets", force: :cascade do |t|
@@ -246,11 +489,16 @@ En el tweets_controller.rb en el metodo index, validamos la presencia de los par
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "friends", "users"
+  add_foreign_key "friends", "users", column: "friend_id"
   add_foreign_key "likes", "tweets"
   add_foreign_key "likes", "users"
   add_foreign_key "retweets", "tweets"
   add_foreign_key "retweets", "users"
+  add_foreign_key "tags_tweets", "tags"
+  add_foreign_key "tags_tweets", "tweets"
   add_foreign_key "tweets", "users"
+end
 
 * Database initialization
 
