@@ -15,7 +15,6 @@
                   <div class="card-body">
                     <h5 class="card-title" style="color: #666; font-size: 24px; font-weight: 600;"><%= tweet.user.name %></h5>
                         <div class="" style= "color: #666; font-weight: 550;">
-
                             <%= tweet.content %>
                           <%if user_signed_in? %>
                             <%if current_user.id == tweet.user_id %>
