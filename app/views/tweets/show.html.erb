@@ -43,6 +43,7 @@
           </div>
       </div>
 
+
       <div class="row">
           <div class="col-md-8">
             <strong>Followers</strong>
@@ -56,7 +57,15 @@
             <%= @tweet.user.following.count %>
         </div>
       </div>
-    
+       <div class="row">
+        <div class="col-md-8">
+          <strong>pruebas</strong>
+    <%=@tweet.retweets.each do |tweet| %>
+       <%= @tweet.likes.count %>
+
+    <% end %> 
+        </div>
+      </div>
 
 
   <%= link_to 'Back', tweets_path %>

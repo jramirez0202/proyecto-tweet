@@ -395,6 +395,44 @@ Luego agragamos dos bloques de codigo para evaluar contenido antes y y despues d
   <p><%= render_with_hashtags(tweet.content) %></p>
 
 
+  hito 3
+
+  Creramos un api controller con un metodo news y heredamos de ActionController::API la clase de manera manual.
+
+  en routes.rb
+
+  creamos la siguiente ruta para el end point 
+
+    post 'api/news'
+
+  en el metodo news vamos a traer todos los tweets lo iteramos luego agregamos a un hash y y los agregamos con un push a una array vacio que previamente creado damos la informacion de cada punto y renderisamos en json para verlo en postman 
+
+  class ApiController < ActionController::API 
+  def news
+    @tweet = Tweet.all
+    array = []
+    all = { tweet:   
+      @tweet.sort.each do |tweet|
+      array << { id: tweet.id,
+                content: tweet.content,
+                user_id: tweet.user_id,
+                like_count: tweet.likes.count,
+                retweets_count: tweet.retweets.count,
+                rewtitted_from: tweet.user.id
+      }
+    end }
+
+    render json: array
+  end
+end
+
+para revisar este end point abrimos la herramienta postman 
+
+Pegamos la direccion: http://localhost:3000/api/news cambiando GET por POST (recuerden la routa creada)
+
+Presionamos SEND para hacer la consulta
+
+
 * Configuration
 
 * Database creation

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+  root to: "tweets#index"
 
+  post 'api/news'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -13,14 +15,13 @@ Rails.application.routes.draw do
       post 'follow/:id', to: 'tweets#follow', as: 'follow'
     end
   end
-  
   delete 'follow/:id', to: 'tweets#destroy_following', as: 'destroy_following'
 
-  #route del modelo tag
+  #ruta del modelo tag
   get '/tweets/hashtag/:name', to:'tweets#hashtags'
 
 
-  root to: "tweets#index"
+
 
   #route para likes y retweet
   post 'likes/:tweet_id', to: 'likes#create', as: 'likes'
