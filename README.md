@@ -6,10 +6,13 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
-    2.6.0
+    2.6.6
 * System dependencies
 
 
+Bienvenido 
+
+Rails new proyecto
 
 ya creado nuestro proyecto tweet pasamos a ver lo que se requiere
 
@@ -17,9 +20,9 @@ ya creado nuestro proyecto tweet pasamos a ver lo que se requiere
 
 *Una visita debe poder registrarse utilizando el link de registro en la barra de navegación.
 
-Creamos un controlador llamado posts con vista index
+Creamos un controlador llamado tweets con vista index
 
-rails g controller posts index
+rails g controller tweets index
 
 En este caso usamos la gema 'devise' en el Gemfile del proyecto para crear la autenticación de usuario. La ponemos en la linea 6 del archivo Gemfile
 
@@ -29,7 +32,7 @@ hacemos un 'bundle' en la consola para instalar las dependencias de la gema
 
 bundle install
 
-Debemos instalar la gema 
+Debemos instalar la gema por consola
 
 rails devise:install
 
@@ -47,7 +50,7 @@ rails db:migrate
 
 *La visita al registrarse debe ingresar nombre usuario, foto de perfil (url), email y password.
 
-Agregamos los campos name y photo_url al modelo User ya 
+Agregamos los campos name y photo_url al modelo User ya creado
 
 rails g migration Add_Params_To_User name:string photo_url:string
 
@@ -63,6 +66,8 @@ app/views/devise/registrations/edit.html.erb
 
 *Si una visita ya tiene usuario deberá utilizar el link de ingreso y llenará los campos: email y password antes de hacer click en ingresar.
 
+mostramos los links de sign_in y registration en el navbar
+
 
 *Al conectarse o registrarse una visita debemos darle la bienvenida asi que modificamos el mensaje signed_in para poner "Bienvenido!"
 
@@ -71,7 +76,6 @@ app/views/devise/registrations/edit.html.erb
   signed_in: "Bienvenido!"
 
   procedemos a crear un usuario en el formulario modificado.
-
 
 
 *Una visita debe poder entrar a la página de inicio y ver los últimos 50 tweets.
@@ -428,9 +432,24 @@ end
 
 para revisar este end point abrimos la herramienta postman 
 
-Pegamos la direccion: http://localhost:3000/api/news cambiando GET por POST (recuerden la routa creada)
+Pegamos la direccion: http://localhost:3000/api/news con GET (recuerden la routa creada  get 'api/news')
 
-Presionamos SEND para hacer la consulta
+
+Presionamos SEND para hacer la consulta y nos trae los tweets con informacion solicitada
+
+
+Para hacer una consulta en algun rango de fechas se usa el formato de fecha 2021-01-03 donde el inicio de fecha lo llamado startDate y el otro lo llamados endDate 2021-01-06
+
+Entramos a postman usamos el mismo endpoint de news pero pidiendo las fechas que deseamos revisar 
+
+http://localhost:3000/api/news?startDate=2021-01-03&endDate=2021-01-06
+
+Abajo tenemos los query params KEY y VALUE donde rellenanos de la siguiente forma
+ 
+ KEY = startDate VALUE = 2021-01-03
+ KEY = endDate   VALUE = 2021-01-06
+
+ Presionamos SEND para ver los Tweets dentro de ese rango de fechas o cualquier otro
 
 
 * Configuration

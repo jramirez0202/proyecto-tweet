@@ -62,6 +62,21 @@ class TweetsController < ApplicationController
   def edit
   end
 
+  def apiCreate
+    @tweet= Tweet.new
+    @tweet = Tweet.new(request.body.read)
+    @tweet = current_user.tweets.new(request.body.read)
+
+    respond_to do |format|
+      if @tweet.save
+        format.json { render json: {status:"tweet create"}}
+      else
+        format.json { render json: @tweet.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
   # POST /tweets
   # POST /tweets.json
   def create
