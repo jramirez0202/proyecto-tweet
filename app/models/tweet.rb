@@ -1,6 +1,8 @@
 class Tweet < ApplicationRecord
+    
+    
     belongs_to :user
-    belongs_to :tweet, optional: true 
+    belongs_to :tweet, optional: true
     
     has_many :likes, dependent: :destroy
     has_many :retweets, dependent: :destroy
@@ -27,5 +29,20 @@ class Tweet < ApplicationRecord
             tag = Tag.find_or_create_by(name: hashtag.downcase.delete('#'))
             tweet.tags << tag
         end
+    end
+
+		def tweets_info
+			retweets=[]
+			self.retweets.each do |rt|
+				retweets << rt.id
+			end
+			{ :date => self.created_at.strftime("%d %b. %Y"),
+				:id => self.id,
+				:content => self.content,
+				:user_id => self.user_id,
+				:like_count => self.likes.count,
+				:retweets_count => self.retweets.count,
+				:rewtitted_from => retweets
+			}
     end
 end
