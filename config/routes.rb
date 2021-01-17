@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   get 'api/news'
 
-  # post 'api/tweet', to: 'tweets#apiCreate'
+  post 'api/tweet', to: 'tweets#apiCreate'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

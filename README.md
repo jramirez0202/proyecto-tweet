@@ -445,7 +445,27 @@ Entramos a postman usamos el mismo endpoint de date_ranges pero pidiendo las fec
 http://localhost:3000/api/dates_ranges/2021-01-03/2021-01-09
 
 
- Presionamos SEND para ver los Tweets dentro de ese rango de fechas o cualquier otro
+ Presionamos SEND para ver los Tweets dentro de ese rango de fechas o cualquier otra fecha
+
+
+ creando un tweet vamos al postman usamos la ruta en POST
+
+ http://localhost:3000/tweets 
+
+ en body de postman pegamos
+
+ {
+    "tweet":{
+        "content": "soy un tweet"
+    }
+}
+
+no ubicamos en el boton en raw y mostramos
+
+
+ usamos de referencia https://medium.com/@nahrivera7/autenticaci%C3%B3n-con-rails-6-0-d1067ef687f4
+
+
 
 
 * Configuration
