@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_15_021310) do
+ActiveRecord::Schema.define(version: 2021_01_17_011923) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 2021_01_15_021310) do
     t.string "name"
     t.string "photo_url"
     t.string "jti"
+    t.integer "role", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

@@ -1,5 +1,6 @@
 class TweetsController < ApplicationController
   before_action :authenticate_user!
+  # load_and_authorize_resource
   skip_before_action :verify_authenticity_token
   skip_before_action :authenticate_user!, only:[:index, :show]
   before_action :set_tweet, only: [:show, :edit, :update, :destroy, :create]
