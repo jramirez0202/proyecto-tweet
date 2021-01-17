@@ -1,11 +1,16 @@
 class TweetsController < ApplicationController
   before_action :authenticate_user!
-  skip_before_action :authenticate_user! , only:[:index, :show]
+  # load_and_authorize_resource
+  skip_before_action :verify_authenticity_token
+  skip_before_action :authenticate_user!, only:[:index, :show]
   before_action :set_tweet, only: [:show, :edit, :update, :destroy, :create]
-
+  # load_and_authorize_resource
   # GET /tweets
   # GET /tweets.json
-  def index
+
+
+  def index 
+    
     @tweet = Tweet.new
     if params[:q].present?
       search = params[:q]
@@ -33,7 +38,6 @@ class TweetsController < ApplicationController
     @tweet_id = params[:tweet_id]
     @retweet = Tweet.find(params[:tweet_id])
     redirect_to root_path
-  
   end
   
 
@@ -62,7 +66,10 @@ class TweetsController < ApplicationController
   def edit
   end
 
+
+
   def apiCreate
+    user = User.authenticate(params[:email], params[:password])
     @tweet= Tweet.new
     @tweet = Tweet.new(request.body.read)
     @tweet = current_user.tweets.new(request.body.read)
@@ -77,12 +84,13 @@ class TweetsController < ApplicationController
   end
 
 
+
   # POST /tweets
   # POST /tweets.json
   def create
-    @tweet= Tweet.new
     @tweet = Tweet.new(tweet_params)
-    @tweet = current_user.tweets.new(tweet_params)
+    @tweet.user_id = current_user.id
+    # @tweet = current_user.tweets.new(tweet_params)
 
     respond_to do |format|
       if @tweet.save

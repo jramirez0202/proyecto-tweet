@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_09_143019) do
+ActiveRecord::Schema.define(version: 2021_01_17_011923) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -36,6 +36,13 @@ ActiveRecord::Schema.define(version: 2021_01_09_143019) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.integer "follower_id"
+    t.integer "followee_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "friends", force: :cascade do |t|
@@ -98,7 +105,10 @@ ActiveRecord::Schema.define(version: 2021_01_09_143019) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
     t.string "photo_url"
+    t.string "jti"
+    t.integer "role", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

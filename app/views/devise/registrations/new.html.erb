@@ -29,6 +29,17 @@
       <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
     </div>
 
+      <div class="field">
+        <% roles = {'company'=> '1', 'natural user' => '0'}%>    
+        <fieldset>
+            <% lista = roles.sort %>
+            <%lista.each do |role|%>
+            <%= f.radio_button :role, role[1] %>
+            <label for="<%= role[1] %>"><%= role[0] %> </label>
+            <% end %>
+        </fieldset>
+    </div>
+
     <div class="actions">
       <%= f.submit "Sign up" %>
     </div>

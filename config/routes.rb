@@ -1,6 +1,19 @@
 Rails.application.routes.draw do
   root to: "tweets#index"
 
+  #probando autenticacion de usuario con devise
+  devise_for :users, skip: %i[registrations sessions passwords]
+  devise_scope :user do
+    post '/signup', to: 'registrations#create'
+    post '/login', to: 'sessions#create'
+    delete '/logout', to: 'sessions#destroy'
+  end
+  post 'api/news/:email', to: "api#create_tweets_api"
+
+  scope '/api' do
+    get '/dates_ranges/:startDate/:endDate', to: 'api#dates_ranges', as: 'dates_ranges'
+  end
+
   get 'api/news'
 
   post 'api/tweet', to: 'tweets#apiCreate'
@@ -11,7 +24,7 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-#rutas para el follow unfollow
+  #rutas para el follow unfollow
   resources :tweets do
     member do
       post 'follow/:id', to: 'tweets#follow', as: 'follow'

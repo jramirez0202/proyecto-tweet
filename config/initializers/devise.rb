@@ -9,12 +9,13 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+  
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '32b6eecd2976b137f3416e4e6957382a390b1d22992f1600c6949d256af64a8da439841ec4292d2c30b4b41f2fcb3f16f834d85faad4640e076f68dc3aff5c5b'
+  # config.secret_key = '3774f991fcc6abdb07672b01366425b47c9765bcf8bc556a9e285da27b1446f706f9a05ce8ff9287cc787c9509af9fa413eb733a6aafca80caaf8a33b98e9c22'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -126,7 +127,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '0503a8328750e478815e4c3cc3f2fc4a47cdf2bb6895ed6caba9cae56f64e90e9f65845bdbdeb71d3c6516966cb343eb343b9e9f5cdd0821325cdd64ccd17c57'
+  # config.pepper = '521e59b65e07a35c52b49d3d8544fdfaa1f019c6171bf5e7cc0fbc53a17bda8720941bcb11ff01d76d6fdc0e2fecfbd7728638634788af045e935f36a8d12c7e'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -308,4 +309,18 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+  
+  config.jwt do |jwt|
+    jwt.secret = Rails.application.credentials.jwt_secret
+    jwt.dispatch_requests = [
+      ['POST', %r{^/login$}]
+    ]
+    jwt.revocation_requests = [
+      ['DELETE', %r{^/logout$}]
+    ]
+    jwt.expiration_time = 1.day.to_i
+  end
+
 end
+
+

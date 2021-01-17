@@ -438,18 +438,34 @@ Pegamos la direccion: http://localhost:3000/api/news con GET (recuerden la routa
 Presionamos SEND para hacer la consulta y nos trae los tweets con informacion solicitada
 
 
-Para hacer una consulta en algun rango de fechas se usa el formato de fecha 2021-01-03 donde el inicio de fecha lo llamado startDate y el otro lo llamados endDate 2021-01-06
+Para hacer una consulta en algun rango de fechas se usa el formato de fecha AAAA-MM-DD donde el inicio de fecha lo llamado startDate y el otro lo llamados endDate 2021-01-06
 
-Entramos a postman usamos el mismo endpoint de news pero pidiendo las fechas que deseamos revisar 
+Entramos a postman usamos el mismo endpoint de date_ranges pero pidiendo las fechas que deseamos revisar 
 
-http://localhost:3000/api/news?startDate=2021-01-03&endDate=2021-01-06
+http://localhost:3000/api/dates_ranges/2021-01-03/2021-01-09
 
-Abajo tenemos los query params KEY y VALUE donde rellenanos de la siguiente forma
- 
- KEY = startDate VALUE = 2021-01-03
- KEY = endDate   VALUE = 2021-01-06
 
- Presionamos SEND para ver los Tweets dentro de ese rango de fechas o cualquier otro
+ Presionamos SEND para ver los Tweets dentro de ese rango de fechas o cualquier otra fecha
+
+
+ creando un tweet vamos al postman usamos la ruta en POST
+
+ http://localhost:3000/tweets 
+
+ en body de postman pegamos
+
+ {
+    "tweet":{
+        "content": "soy un tweet"
+    }
+}
+
+no ubicamos en el boton en raw y mostramos
+
+
+ usamos de referencia https://medium.com/@nahrivera7/autenticaci%C3%B3n-con-rails-6-0-d1067ef687f4
+
+
 
 
 * Configuration
